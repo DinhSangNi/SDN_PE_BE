@@ -2,12 +2,19 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const configService = app.get(ConfigService);
+
   app.enableCors({
-    origin: [process.env.CLIENT_URL, 'http://localhost:3000'],
+    origin: [
+      configService.get<string>('CLIENT_URL'),
+      'http://localhost:3000',
+      'https://sdn-pe-fe.vercel.app',
+    ],
     credentials: true,
   });
 
