@@ -29,4 +29,10 @@ export class GroupService {
   async findAll() {
     return await this.groupModel.find().lean();
   }
+
+  async findByName(name: string) {
+    return await this.groupModel.findOne({
+      name,
+    });
+  }
 }

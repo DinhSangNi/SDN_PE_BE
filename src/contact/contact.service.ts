@@ -31,13 +31,13 @@ export class ContactService {
       group = await this.groupService.findOrCreate(groupName);
     }
 
+    console.log('group: ', group);
+
     const contact = new this.contactModel({
       name,
       email,
       phone,
-      group: {
-        _id: group?._id,
-      },
+      group: group?._id,
     });
 
     return await contact.save();
@@ -97,13 +97,15 @@ export class ContactService {
   }
 
   async update(id: string, dto: UpdateContactDto): Promise<Contact> {
+    const group = await this.groupService.findByName(dto.groupName as string);
+    if (!group) {
+      throw new NotFoundException('Group name not found');
+    }
     const contact = await this.contactModel.findByIdAndUpdate(
       id,
       {
         ...dto,
-        group: {
-          name: dto.group,
-        },
+        group: group._id,
       },
       {
         new: true,

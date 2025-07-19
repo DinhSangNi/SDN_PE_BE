@@ -17,5 +17,5 @@ export class UpdateContactDto {
 
   @IsString()
   @IsOptional()
-  group?: string;
+  groupName?: string;
 }
