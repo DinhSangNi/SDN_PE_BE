@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { InjectConnection, MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Connection } from 'mongoose';
+import { ContactModule } from './contact/contact.module';
+import { GroupModule } from './group/group.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { Connection } from 'mongoose';
         uri: configService.get<string>('MONGODB_URI'),
       }),
     }),
+    ContactModule,
+    GroupModule,
   ],
   controllers: [AppController],
   providers: [AppService],
